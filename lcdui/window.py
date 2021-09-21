@@ -1,6 +1,6 @@
 class Window:
     def __init__(self):
-        self.lines = [
+        self._lines = [
             'Text',
             'Label:' + '_' * (20 - 6),
             '<Button> (*)Radio',
@@ -9,7 +9,12 @@ class Window:
         self.focus = None
 
     def handle(self, event):
+        print(event)
         pass
 
+    @property
+    def lines(self):
+        return self._lines
+
     def __str__(self):
-        return '\r\n'.join(self.lines)
+        return '\n'.join(self._lines)

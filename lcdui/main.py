@@ -1,14 +1,13 @@
-from RPLCD.i2c import CharLCD
-
+from display import ConsoleDisplay
 from event import Event
 from window import Window
 from utils import getch
 
 
 def main():
-    lcd = CharLCD('PCF8574', 0x27)
+    display = ConsoleDisplay()
     w = Window()
-    lcd.write_string(str(w))
+    display.show(w.lines)
     while True:
         c = getch()
         if c == 'q':
