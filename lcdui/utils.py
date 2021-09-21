@@ -12,3 +12,11 @@ def getch():
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         return ch
     return _getch()
+
+
+def ensure_line_count(lines, count):
+    if len(lines) < count:
+        lines.extend([''] * (count - len(lines)))
+    elif len(lines) > count:
+        lines = lines[:count]
+    return lines

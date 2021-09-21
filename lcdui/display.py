@@ -1,5 +1,7 @@
 from abc import ABCMeta
 
+from lcdui.utils import ensure_line_count
+
 
 class Display(metaclass=ABCMeta):
     def show(self, lines):
@@ -18,7 +20,7 @@ class ConsoleDisplay(Display):
     def show(self, lines):
         self._go_back()
         print('┌' + '─' * self.cols + '┐')
-        for line in lines:
+        for line in ensure_line_count(lines, self.rows):
             print('│{:<20s}│'.format(line))
         print('└' + '─' * self.cols + '┘')
         self._need_go_back = True
@@ -46,7 +48,7 @@ class RPLCDDisplay(Display):
 
     def show(self, lines):
         self._go_back()
-        for i, line in enumerate(lines):
+        for i, line in enumerate(ensure_line_count(lines, self.rows)):
             end = self.NEWLINE if i < len(lines) - 1 else ''
             self.lcd.write_string(line + end)
 
