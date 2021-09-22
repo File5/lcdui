@@ -11,13 +11,15 @@ class PrintCanvas:
 
     @position.setter
     def position(self, value):
-        self._position = value
         px, py = self.parent_position
         x, y = value
         self.parent.position = (px + x, py + y)
+        self._position = value
 
     def print(self, line):
-        self.display.print(line)
+        self.parent.print(line)
+        x, y = self._position
+        self._position = (x + len(line), y)
 
     def sub_canvas(self, size):
         return PrintCanvas(self, self.position, size)
