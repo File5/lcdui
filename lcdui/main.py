@@ -5,31 +5,40 @@ from utils import getch
 
 
 def main():
+    ESC = '\033'
+    MOVE_SEQ = [ESC, '[']
     display = ConsoleDisplay()
     w = Window()
     display.show(w.lines)
     display.canvas.position = (2, 1)
     canvas = display.canvas.sub_canvas(16, 2)
+    seq = []
     while True:
         c = getch()
+        seq.append(c)
+        seq = seq[-3:]
         x, y = canvas.position
 
-        if c == 'q':
+        if seq[-2:] == [ESC] * 2:
             break
-        elif c == 'A' and y > 0:
-            canvas.position = x, y - 1
-            w.handle(Event.UP)
-        elif c == 'B' and y < canvas.size[1] - 1:
-            canvas.position = x, y + 1
-            w.handle(Event.DOWN)
-        elif c == 'D' and x > 0:
-            canvas.position = x - 1, y
-            w.handle(Event.LEFT)
-        elif c == 'C' and x < canvas.size[0] - 1:
-            canvas.position = x + 1, y
-            w.handle(Event.RIGHT)
-        elif c == 'x':
-            canvas.print('x')
+        elif seq == MOVE_SEQ + ['A']:
+            if y > 0:
+                canvas.position = x, y - 1
+                w.handle(Event.UP)
+        elif seq == MOVE_SEQ + ['B']:
+            if y < canvas.size[1] - 1:
+                canvas.position = x, y + 1
+                w.handle(Event.DOWN)
+        elif seq == MOVE_SEQ + ['D']:
+            if x > 0:
+                canvas.position = x - 1, y
+                w.handle(Event.LEFT)
+        elif seq == MOVE_SEQ + ['C']:
+            if x < canvas.size[0] - 1:
+                canvas.position = x + 1, y
+                w.handle(Event.RIGHT)
+        elif seq[-1] != ESC and seq[-2:] != MOVE_SEQ:
+            canvas.print(c)
 
 
 if __name__ == "__main__":
