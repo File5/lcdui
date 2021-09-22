@@ -35,10 +35,11 @@ class ConsoleDisplay(Display):
     def __init__(self, cols=20, rows=4):
         super().__init__(cols, rows)
         self.canvas = PrintCanvas(self, (0, 0), (self.cols, self.rows))
+        self._position = (0, 0)
 
     @property
     def position(self):
-        return self.canvas.position
+        return self._position
 
     @position.setter
     def position(self, value):
@@ -46,16 +47,19 @@ class ConsoleDisplay(Display):
         new_col, new_row = value
         col_diff, row_diff = (new_col - col), (new_row - row)
         if row_diff > 0:
-            print('\033[{}B'.format(row_diff))
+            print('\033[{}B'.format(row_diff), end='')
         elif row_diff < 0:
-            print('\033[{}A'.format(-row_diff))
+            print('\033[{}A'.format(-row_diff), end='')
         if col_diff > 0:
-            print('\033[{}C'.format(col_diff))
+            print('\033[{}C'.format(col_diff), end='')
         elif col_diff < 0:
-            print('\033[{}D'.format(-col_diff))
+            print('\033[{}D'.format(-col_diff), end='')
+        self._position = value
 
     def print(self, line):
         print(line, end='')
+        x, y = self._position
+        self._position = x + len(line), y
 
     def show(self, lines):
         self.position = (0, 0)
@@ -63,6 +67,7 @@ class ConsoleDisplay(Display):
         for line in ensure_line_count(lines, self.rows):
             print('│{:<20s}│'.format(line))
         print('└' + '─' * self.cols + '┘')
+        print('\033[{}F\033[1C'.format(1 + self.rows), end='')
 
     def clear(self):
         self.show([''] * self.rows)

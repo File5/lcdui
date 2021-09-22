@@ -10,16 +10,24 @@ def main():
     display.show(w.lines)
     while True:
         c = getch()
+        x, y = display.position
+
         if c == 'q':
             break
-        elif c == 'i':
+        elif c == 'A' and y > 0:
+            display.position = x, y - 1
             w.handle(Event.UP)
-        elif c == 'k':
+        elif c == 'B' and y < display.rows - 1:
+            display.position = x, y + 1
             w.handle(Event.DOWN)
-        elif c == 'j':
+        elif c == 'D' and x > 0:
+            display.position = x - 1, y
             w.handle(Event.LEFT)
-        elif c == 'l':
+        elif c == 'C' and x < display.cols - 1:
+            display.position = x + 1, y
             w.handle(Event.RIGHT)
+        elif c == 'x':
+            display.print('x')
 
 
 if __name__ == "__main__":

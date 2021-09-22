@@ -12,7 +12,7 @@ class Window(View):
         self.focus = None
 
     def handle(self, event):
-        print(event)
+        #print(event)
         pass
 
     @property
