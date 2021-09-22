@@ -11,6 +11,7 @@ def main():
     w = Window()
     display.show(w.lines)
     display.canvas.position = (0, 0)
+    #display.cursor_mode = 'blink'
     canvas = display.canvas.sub_canvas(20, 4)
     seq = []
     while True:

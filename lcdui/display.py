@@ -100,6 +100,14 @@ class RPLCDDisplay(Display):
     def position(self, value):
         self.lcd.cursor_pos = value[::-1]
 
+    @property
+    def cursor_mode(self):
+        return self.lcd.cursor_mode
+
+    @cursor_mode.setter
+    def cursor_mode(self, value):
+        self.lcd.cursor_mode = value
+
     def print(self, line):
         x, y = self.position
         remaining = self.cols - x
