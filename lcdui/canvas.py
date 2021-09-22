@@ -21,5 +21,5 @@ class PrintCanvas:
         x, y = self._position
         self._position = (x + len(line), y)
 
-    def sub_canvas(self, size):
-        return PrintCanvas(self, self.position, size)
+    def sub_canvas(self, w, h):
+        return PrintCanvas(self, self.position, (w, h))
