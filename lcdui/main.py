@@ -1,4 +1,4 @@
-from display import ConsoleDisplay
+from display import ConsoleDisplay, RPLCDDisplay
 from event import Event
 from views.window import Window
 from utils import getch
@@ -7,11 +7,11 @@ from utils import getch
 def main():
     ESC = '\033'
     MOVE_SEQ = [ESC, '[']
-    display = ConsoleDisplay()
+    display = RPLCDDisplay()
     w = Window()
     display.show(w.lines)
-    display.canvas.position = (2, 1)
-    canvas = display.canvas.sub_canvas(16, 2)
+    display.canvas.position = (0, 0)
+    canvas = display.canvas.sub_canvas(20, 4)
     seq = []
     while True:
         c = getch()
