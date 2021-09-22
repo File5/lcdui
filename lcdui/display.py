@@ -57,9 +57,17 @@ class ConsoleDisplay(Display):
         self._position = value
 
     def print(self, line):
-        print(line, end='')
         x, y = self._position
-        self._position = x + len(line), y
+        remaining = self.cols - x
+        print(line[:remaining], end='')
+        printed = len(line[:remaining])
+        self._position = x + printed, y
+
+        x, y = self._position
+        if x >= self.cols:
+            self.position = x - 1, y
+            printed -= 1
+        return printed
 
     def show(self, lines):
         self.position = (0, 0)

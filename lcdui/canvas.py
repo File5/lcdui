@@ -17,9 +17,17 @@ class PrintCanvas:
         self._position = value
 
     def print(self, line):
-        self.parent.print(line)
         x, y = self._position
-        self._position = (x + len(line), y)
+        remaining = self.size[0] - x
+        printed = self.parent.print(line[:remaining])
+        self._position = (x + printed, y)
+
+        x, y = self._position
+        if x >= self.size[0]:
+            self.position = x - 1, y
+            printed -= 1
+        return printed
+
 
     def sub_canvas(self, w, h):
         return PrintCanvas(self, self.position, (w, h))
