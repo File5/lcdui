@@ -1,6 +1,6 @@
 from display import ConsoleDisplay
 from event import Event
-from window import Window
+from views.window import Window
 from utils import getch
 
 

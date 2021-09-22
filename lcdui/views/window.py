@@ -1,4 +1,7 @@
-class Window:
+from lcdui.views import View
+
+
+class Window(View):
     def __init__(self):
         self._lines = [
             'Text',
