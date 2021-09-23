@@ -22,9 +22,9 @@ class Layout(View):
 
             if isinstance(row, Iterable):
                 j = 0
-                for w in enumerate(row):
-                    canvas.position = (i, j)
-                    j += w.print(canvas.sub_canvas(w.size))
+                for w in row:
+                    canvas.position = (j, i)
+                    j += w.print(canvas.sub_canvas(*w.size))
                     if j >= cols - 1:
                         break  # no more space on this row
             else:

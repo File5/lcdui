@@ -1,15 +1,16 @@
-from display import ConsoleDisplay, RPLCDDisplay
+from lcdui.views.lineinput import LineInput
+from display import ConsoleDisplay, RPLCDDisplay, Cursor
 from event import Event
-from lcdui.views import Window, Text
+from lcdui.views import Window, Button, CheckBox, Radio, Text, LineInput
 from utils import getch
 
 
 class MainWindow(Window):
     layout = [
         Text('Title'),
-        Text('Label:' + '_' * 14),
-        Text('<Button> (*)Radio'),
-        Text('|X|CheckBox'),
+        [Text('Label:'), LineInput(14)],
+        [Button('Button'), Text(' '), Radio('Radio')],
+        CheckBox('CheckBox'),
     ]
 
 
@@ -23,7 +24,7 @@ def main():
     canvas = display.canvas.sub_canvas(20, 4)
     w.print(canvas)
     canvas.position = (0, 0)
-    #display.cursor_mode = 'blink'
+    #display.cursor = Cursor.BLOCK
     seq = []
     while True:
         c = getch()

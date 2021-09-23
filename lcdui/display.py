@@ -1,7 +1,14 @@
 from abc import ABCMeta
+from enum import Enum
 
 from lcdui.canvas import PrintCanvas
 from lcdui.utils import ensure_line_count
+
+
+class Cursor(Enum):
+    NONE = 0
+    BLOCK = 1
+    UNDERLINE = 2
 
 
 class Display(metaclass=ABCMeta):
@@ -16,6 +23,14 @@ class Display(metaclass=ABCMeta):
 
     @position.setter
     def position(self, value):
+        pass
+
+    @property
+    def cursor(self):
+        return Cursor.NONE
+
+    @cursor.setter
+    def cursor(self, value):
         pass
 
     def print(self, line):
@@ -55,6 +70,14 @@ class ConsoleDisplay(Display):
         elif col_diff < 0:
             print('\033[{}D'.format(-col_diff), end='')
         self._position = value
+
+    @property
+    def cursor(self):
+        return Cursor.BLOCK
+    
+    @cursor.setter
+    def cursor(self, value):
+        pass
 
     def print(self, line):
         x, y = self._position
@@ -101,12 +124,22 @@ class RPLCDDisplay(Display):
         self.lcd.cursor_pos = value[::-1]
 
     @property
-    def cursor_mode(self):
-        return self.lcd.cursor_mode
+    def cursor(self):
+        if self.lcd.cursor_mode == 'hide':
+            return Cursor.NONE
+        elif self.lcd.cursor_mode == 'blink':
+            return Cursor.BLOCK
+        elif self.lcd.cursor_mode == 'line':
+            return Cursor.UNDERLINE
 
-    @cursor_mode.setter
-    def cursor_mode(self, value):
-        self.lcd.cursor_mode = value
+    @cursor.setter
+    def cursor(self, value):
+        if value == Cursor.NONE:
+            self.lcd.cursor_mode = 'hide'
+        elif value == Cursor.BLOCK:
+            self.lcd.cursor_mode = 'blink'
+        elif value == Cursor.UNDERLINE:
+            self.lcd.cursor_mode = 'line'
 
     def print(self, line):
         x, y = self.position

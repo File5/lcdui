@@ -16,16 +16,19 @@ class PrintCanvas:
         self.parent.position = (px + x, py + y)
         self._position = value
 
+    @property
+    def cursor(self):
+        return self.parent.cursor
+
+    @cursor.setter
+    def cursor(self, value):
+        self.parent.cursor = value
+
     def print(self, line):
         x, y = self._position
         remaining = self.size[0] - x
         printed = self.parent.print(line[:remaining])
         self._position = (x + printed, y)
-
-        x, y = self._position
-        if x >= self.size[0]:
-            self.position = x - 1, y
-            printed -= 1
         return printed
 
 
