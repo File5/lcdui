@@ -7,12 +7,14 @@ from utils import getch
 def main():
     ESC = '\033'
     MOVE_SEQ = [ESC, '[']
-    display = RPLCDDisplay()
+    display = ConsoleDisplay()
+    display.show([''] * 4)  # draw the display
     w = Window()
-    display.show(w.lines)
     display.canvas.position = (0, 0)
-    #display.cursor_mode = 'blink'
     canvas = display.canvas.sub_canvas(20, 4)
+    w.print(canvas)
+    canvas.position = (0, 0)
+    #display.cursor_mode = 'blink'
     seq = []
     while True:
         c = getch()

@@ -15,9 +15,10 @@ class Window(View):
         #print(event)
         pass
 
-    @property
-    def lines(self):
-        return self._lines
+    def print(self, canvas):
+        for i, line in enumerate(self._lines):
+            canvas.position = (0, i)
+            canvas.print(line)
 
     def __str__(self):
         return '\n'.join(self._lines)
