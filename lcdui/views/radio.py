@@ -4,6 +4,8 @@ from lcdui.views import View
 class Radio(View):
     PREFIX = '('
     SUFFIX = ')'
+    FOCUSED_PREFIX = '['
+    FOCUSED_SUFFIX = ']'
     SELECTED = '*'
     DESELECTED = ' '
 
@@ -15,6 +17,13 @@ class Radio(View):
         self.size = (len(text) + 3, 1)
     
     def print(self, canvas):
+        if self.focused:
+            prefix = self.FOCUSED_PREFIX
+            suffix = self.FOCUSED_SUFFIX
+        else:
+            prefix = self.PREFIX
+            suffix = self.SUFFIX
+
         return canvas.print(self.FORMAT.format(
-            self.PREFIX, self.SELECTED, self.SUFFIX, self.text
+            prefix, self.SELECTED, suffix, self.text
         ))

@@ -1,3 +1,4 @@
+from lcdui.event import Event
 from lcdui.views import View
 from lcdui.views.layout import Layout
 
@@ -13,11 +14,21 @@ class Window(View):
             self.layout = Layout(self.layout, self)
         else:
             self.layout = Layout([], self)
-        self.focus = None
+        self.focus = 0
+        self._focusable_views = self.layout.focusable_views
+        self._focusable_count = len(self._focusable_views)
 
     def handle(self, event):
-        #print(event)
-        pass
+        self._focusable_views[self.focus].focused = False
+        if event == Event.DOWN:
+            self.focus += 1
+            if self.focus >= self._focusable_count:
+                self.focus = self._focusable_count - 1
+        elif event == Event.UP:
+            self.focus -= 1
+            if self.focus < 0:
+                self.focus = 0
+        self._focusable_views[self.focus].focused = True
 
     def print(self, canvas):
         canvas.position = (0, 0)

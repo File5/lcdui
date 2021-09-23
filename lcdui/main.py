@@ -1,8 +1,13 @@
 from lcdui.views.lineinput import LineInput
-from display import ConsoleDisplay, RPLCDDisplay, Cursor
-from event import Event
+from lcdui.display import ConsoleDisplay, RPLCDDisplay, Cursor
+from lcdui.event import Event
 from lcdui.views import Window, Button, CheckBox, Radio, Text, LineInput
-from utils import getch
+from lcdui.utils import getch
+
+
+def focused(view):
+    view.focused = True
+    return view
 
 
 class MainWindow(Window):
@@ -36,22 +41,23 @@ def main():
             break
         elif seq == MOVE_SEQ + ['A']:
             if y > 0:
-                canvas.position = x, y - 1
-                w.handle(Event.UP)
+                pass#canvas.position = x, y - 1
+            w.handle(Event.UP)
         elif seq == MOVE_SEQ + ['B']:
             if y < canvas.size[1] - 1:
-                canvas.position = x, y + 1
-                w.handle(Event.DOWN)
+                pass#canvas.position = x, y + 1
+            w.handle(Event.DOWN)
         elif seq == MOVE_SEQ + ['D']:
             if x > 0:
-                canvas.position = x - 1, y
-                w.handle(Event.LEFT)
+                pass#canvas.position = x - 1, y
+            w.handle(Event.LEFT)
         elif seq == MOVE_SEQ + ['C']:
             if x < canvas.size[0] - 1:
-                canvas.position = x + 1, y
-                w.handle(Event.RIGHT)
+                pass#canvas.position = x + 1, y
+            w.handle(Event.RIGHT)
         elif seq[-1] != ESC and seq[-2:] != MOVE_SEQ:
             canvas.print(c)
+        w.print(canvas)
 
 
 if __name__ == "__main__":
