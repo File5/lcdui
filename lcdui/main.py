@@ -9,7 +9,7 @@ def main():
     MOVE_SEQ = [ESC, '[']
     display = ConsoleDisplay()
     display.show([''] * 4)  # draw the display
-    w = Window()
+    w = Window(20, 4)
     display.canvas.position = (0, 0)
     canvas = display.canvas.sub_canvas(20, 4)
     w.print(canvas)
