@@ -1,7 +1,16 @@
 from display import ConsoleDisplay, RPLCDDisplay
 from event import Event
-from views.window import Window
+from lcdui.views import Window, Text
 from utils import getch
+
+
+class MainWindow(Window):
+    layout = [
+        Text('Title'),
+        Text('Label:' + '_' * 14),
+        Text('<Button> (*)Radio'),
+        Text('|X|CheckBox'),
+    ]
 
 
 def main():
@@ -9,7 +18,7 @@ def main():
     MOVE_SEQ = [ESC, '[']
     display = ConsoleDisplay()
     display.show([''] * 4)  # draw the display
-    w = Window(20, 4)
+    w = MainWindow(20, 4)
     display.canvas.position = (0, 0)
     canvas = display.canvas.sub_canvas(20, 4)
     w.print(canvas)
