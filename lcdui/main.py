@@ -58,6 +58,8 @@ def main():
         elif seq[-1] != ESC and seq[-2:] != MOVE_SEQ:
             canvas.print(c)
         w.print(canvas)
+        x, y = w.size
+        canvas.position = w.layout.focus_grid._focus
 
 
 if __name__ == "__main__":

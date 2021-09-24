@@ -11,13 +11,6 @@ class View(metaclass=ABCMeta):
         self.focusable = False
         self.focused = False
 
-    @property
-    def focusable_views(self):
-        if self.focusable:
-            return [self]
-        else:
-            return []
-
     def print(self, canvas):
         pass
 

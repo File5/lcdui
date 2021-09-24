@@ -17,17 +17,8 @@ class Layout(View):
     def __getitem__(self, key):
         return self.layout[key]
 
-    @property
-    def focusable_views(self):
-        children = []
-        for row in self.layout:
-            if isinstance(row, Iterable):
-                for w in row:
-                    children.extend(w.focusable_views)
-            else:
-                w = row
-                children.extend(w.focusable_views)
-        return children
+    def handle(self, event):
+        self.focus_grid.handle(event)
 
     def print(self, canvas):
         cols, rows = self.parent.size

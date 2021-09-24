@@ -1,3 +1,5 @@
+from lcdui.event import Event
+
 from collections import Iterable
 
 
@@ -78,3 +80,76 @@ class FocusGrid:
                 result_row.append(cell_str)
             result.append(result_row)
         return '\n'.join(map(lambda r: ''.join(r), result))
+
+    def __getitem__(self, key):
+        x, y = key
+        row = self._grid[y]
+        for cell in row:
+            if cell.x <= x < cell.x + cell.w:
+                return cell  # exact match
+
+        # otherwise, find the nearest cell
+        prev = None
+        for cell in row:
+            if x < cell.x:
+                if prev is None:
+                    return cell  # to the left of the first cell
+
+                dist_prev = x - (prev.x + prev.w - 1)
+                dist_cell = cell.x - x
+
+                if dist_prev > dist_cell:
+                    return cell  # between prev and cell (cell is closer)
+                else:
+                    return prev  # between prev and cell
+
+            prev = cell
+
+        # otherwise, just the last cell
+        return row[-1]  # rightmost
+
+    def _find_prev(self, cell):
+        x, y = cell.pos
+        row = self._grid[y]
+        prev = None
+        for c in row:
+            if c == cell:
+                if prev is not None:
+                    return prev.pos
+            prev = c
+        return cell.pos
+
+    def _find_next(self, cell):
+        x, y = cell.pos
+        row = self._grid[y]
+        prev = None
+        for c in row:
+            if prev is not None and prev == cell:
+                return c.pos
+            prev = c
+        return cell.pos
+
+    def handle(self, event):
+        w, h = self.size
+        x, y = self._focus
+        cell = self[self._focus]
+        cell.view.focused = False
+        if event == Event.UP:
+            if y > 0:
+                y -= 1
+                self._focus = (x, y)
+        elif event == Event.DOWN:
+            if y < h - 1:
+                y += 1
+                self._focus = (x, y)
+        elif event == Event.LEFT:
+            if not cell.first and x > 0:
+                #x -= (x - cell.x) + 1  # TODO find left neighbor
+                x = self._find_prev(cell)[0]
+                self._focus = (x, y)
+        elif event == Event.RIGHT:
+            if not cell.last and x < w - 1:
+                #x += cell.w
+                x = self._find_next(cell)[0]
+                self._focus = (x, y)
+        self[self._focus].view.focused = True

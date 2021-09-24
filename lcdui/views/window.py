@@ -15,20 +15,9 @@ class Window(View):
         else:
             self.layout = Layout([], self)
         self.focus = 0
-        self._focusable_views = self.layout.focusable_views
-        self._focusable_count = len(self._focusable_views)
 
     def handle(self, event):
-        self._focusable_views[self.focus].focused = False
-        if event == Event.DOWN:
-            self.focus += 1
-            if self.focus >= self._focusable_count:
-                self.focus = self._focusable_count - 1
-        elif event == Event.UP:
-            self.focus -= 1
-            if self.focus < 0:
-                self.focus = 0
-        self._focusable_views[self.focus].focused = True
+        self.layout.handle(event)
 
     def print(self, canvas):
         canvas.position = (0, 0)
