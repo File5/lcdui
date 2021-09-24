@@ -1,4 +1,6 @@
 from collections import Iterable
+
+from lcdui.focus import FocusGrid
 from lcdui.views import View
 
 
@@ -6,6 +8,7 @@ class Layout(View):
     def __init__(self, layout, parent=None):
         super().__init__(parent)
         self.layout = layout
+        self.focus_grid = FocusGrid(parent.size, self.layout)
         self.size = (0, 0)  # to be calculated
 
     def __iter__(self):
