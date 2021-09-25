@@ -1,5 +1,5 @@
 from lcdui.views.lineinput import LineInput
-from lcdui.display import ConsoleDisplay, RPLCDDisplay, Cursor
+from lcdui.display import BufferedConsoleDisplay, BufferedRPLCDDisplay, Cursor
 from lcdui.event import Event
 from lcdui.views import Window, Button, CheckBox, Radio, Text, LineInput
 from lcdui.utils import getch
@@ -22,14 +22,14 @@ class MainWindow(Window):
 def main():
     ESC = '\033'
     MOVE_SEQ = [ESC, '[']
-    display = ConsoleDisplay()
+    display = BufferedConsoleDisplay()
     display.show([''] * 4)  # draw the display
     w = MainWindow(20, 4)
     display.canvas.position = (0, 0)
     canvas = display.canvas.sub_canvas(20, 4)
     w.print(canvas)
     canvas.position = (0, 0)
-    #display.cursor = Cursor.BLOCK
+    display.cursor = Cursor.BLOCK
     seq = []
     while True:
         c = getch()
@@ -60,6 +60,7 @@ def main():
         w.print(canvas)
         x, y = w.size
         canvas.position = w.layout.focus_grid._focus
+        display.cursor = Cursor.BLOCK
 
 
 if __name__ == "__main__":

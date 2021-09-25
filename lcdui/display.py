@@ -104,6 +104,59 @@ class ConsoleDisplay(Display):
         self.show([''] * self.rows)
 
 
+class BufferedMixin:
+    def __init__(self, cols=20, rows=4):
+        super().__init__(cols, rows)
+        self.buffer = [' ' * cols] * rows
+        self._buffer_position = (0, 0)
+        self._cursor = super(BufferedMixin, self).cursor
+
+    @property
+    def position(self):
+        return super(BufferedMixin, self).position
+
+    @position.setter
+    def position(self, value):
+        self._buffer_position = value
+        if self._cursor != Cursor.NONE:
+            super(BufferedMixin, self.__class__).position.fset(self, value)
+
+    @property
+    def cursor(self):
+        return self._cursor
+    
+    @cursor.setter
+    def cursor(self, value):
+        if value != self._cursor:
+            self._cursor = value
+        if value != Cursor.NONE:
+            self.position = self._buffer_position  # show cursor at position
+
+    def print(self, line):
+        x, y = self._buffer_position
+        remaining = self.cols - x
+        to_write = line[:remaining]
+        existing = self.buffer[y][x:x + len(to_write)]
+        if to_write != existing:
+            self.buffer[y] = self.buffer[y][:x] + line[:len(to_write)] + self.buffer[y][x + len(to_write):]
+            super(BufferedMixin, self.__class__).position.fset(self, self._buffer_position)
+            printed = super().print(to_write)
+        else:
+            printed = len(existing)
+        if x + printed < self.cols:
+            self._buffer_position = x + printed, y
+        else:
+            self._buffer_position = self.cols - 1, y
+            return self.cols - 1 - x
+        return printed
+
+    def clear(self):
+        super().clear()
+        self.buffer = [' ' * self.cols] * self.rows
+        self._buffer_position = super(BufferedMixin, self).position
+        self._cursor = super(BufferedMixin, self).cursor
+
+
 class RPLCDDisplay(Display):
     NEWLINE = '\r\n'
 
@@ -156,3 +209,11 @@ class RPLCDDisplay(Display):
 
     def clear(self):
         self.lcd.clear()
+
+
+class BufferedConsoleDisplay(BufferedMixin, ConsoleDisplay):
+    pass
+
+
+class BufferedRPLCDDisplay(BufferedMixin, RPLCDDisplay):
+    pass
