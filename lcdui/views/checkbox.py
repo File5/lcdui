@@ -13,6 +13,8 @@ class CheckBox(View):
 
     def __init__(self, text="", parent=None):
         super().__init__(parent=parent)
+        self.focusable = True
+        self.focused = False
         self.text = text
         self.size = (len(text) + 3, 1)
     

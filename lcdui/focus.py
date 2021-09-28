@@ -32,21 +32,27 @@ class FocusGrid:
                 break  # no more rows on the screen
 
             grid_row = []
+            first = True
+            last_cell = None
             if isinstance(row, Iterable):
                 x = 0
                 for i, w in enumerate(row):
-                    first = x == 0
                     last = i == len(row) - 1
-                    cell = self.Cell((x, y), w.size, w, first=first, last=last)
-                    grid_row.append(cell)
+                    if w.focusable:
+                        cell = self.Cell((x, y), w.size, w, first=first, last=last)
+                        grid_row.append(cell)
+                        first = False
+                        last_cell = cell
                     x += w.size[0]
 
                     if x >= cols - 1:
                         break  # no more space on this row
+                last_cell.last = True
             else:
                 w = row
-                first = last = True
-                grid_row.append(self.Cell((0, y), w.size, w, first=first, last=last))
+                if w.focusable:
+                    first = last = True
+                    grid_row.append(self.Cell((0, y), w.size, w, first=first, last=last))
 
             self._grid.append(grid_row)
 
@@ -106,7 +112,9 @@ class FocusGrid:
             prev = cell
 
         # otherwise, just the last cell
-        return row[-1]  # rightmost
+        if row:
+            return row[-1]  # rightmost
+        return None
 
     def _find_prev(self, cell):
         x, y = cell.pos
@@ -133,7 +141,8 @@ class FocusGrid:
         w, h = self.size
         x, y = self._focus
         cell = self[self._focus]
-        cell.view.focused = False
+        if cell:
+            cell.view.focused = False
         if event == Event.UP:
             if y > 0:
                 y -= 1
@@ -143,13 +152,15 @@ class FocusGrid:
                 y += 1
                 self._focus = (x, y)
         elif event == Event.LEFT:
-            if not cell.first and x > 0:
+            if cell and not cell.first and x > 0:
                 #x -= (x - cell.x) + 1  # TODO find left neighbor
                 x = self._find_prev(cell)[0]
                 self._focus = (x, y)
         elif event == Event.RIGHT:
-            if not cell.last and x < w - 1:
+            if cell and not cell.last and x < w - 1:
                 #x += cell.w
                 x = self._find_next(cell)[0]
                 self._focus = (x, y)
-        self[self._focus].view.focused = True
+        cell = self[self._focus]
+        if cell:
+            cell.view.focused = True
