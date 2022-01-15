@@ -1,3 +1,5 @@
+import argparse
+
 #https://stackoverflow.com/a/28143542
 def getch():
     import termios
@@ -20,3 +22,18 @@ def ensure_line_count(lines, count):
     elif len(lines) > count:
         lines = lines[:count]
     return lines
+
+
+def clear():
+    from RPLCD.i2c import CharLCD
+    lcd = CharLCD('PCF8574', 0x27)
+    lcd.clear()
+    lcd.close()
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Helper utils")
+    parser.add_argument('action', help="action to perform")
+    args = parser.parse_args()
+    if args.action == 'clear':
+        clear()
