@@ -129,6 +129,7 @@ class BufferedMixin:
     def cursor(self, value):
         if value != self._cursor:
             self._cursor = value
+            super(BufferedMixin, self.__class__).cursor.fset(self, value)
         if value != Cursor.NONE:
             self.position = self._buffer_position  # show cursor at position
 

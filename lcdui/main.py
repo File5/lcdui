@@ -31,6 +31,13 @@ def main():
     canvas.position = (0, 0)
     display.cursor = Cursor.BLOCK
     seq = []
+
+    def update_display():
+        w.print(canvas)
+        x, y = w.size
+        canvas.position = w.layout.focus_grid._focus
+        display.cursor = Cursor.BLOCK
+
     while True:
         c = getch()
         seq.append(c)
@@ -43,24 +50,24 @@ def main():
             if y > 0:
                 pass#canvas.position = x, y - 1
             w.handle(Event.UP)
+            update_display()
         elif seq == MOVE_SEQ + ['B']:
             if y < canvas.size[1] - 1:
                 pass#canvas.position = x, y + 1
             w.handle(Event.DOWN)
+            update_display()
         elif seq == MOVE_SEQ + ['D']:
             if x > 0:
                 pass#canvas.position = x - 1, y
             w.handle(Event.LEFT)
+            update_display()
         elif seq == MOVE_SEQ + ['C']:
             if x < canvas.size[0] - 1:
                 pass#canvas.position = x + 1, y
             w.handle(Event.RIGHT)
+            update_display()
         elif seq[-1] != ESC and seq[-2:] != MOVE_SEQ:
             canvas.print(c)
-        w.print(canvas)
-        x, y = w.size
-        canvas.position = w.layout.focus_grid._focus
-        display.cursor = Cursor.BLOCK
 
 
 if __name__ == "__main__":
