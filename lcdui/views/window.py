@@ -18,7 +18,7 @@ class Window(View):
     def handle(self, event):
         self.layout.handle(event)
 
-    def print(self, canvas):
+    def print(self, canvas, final=False):
         canvas.position = (0, 0)
         self.layout.print(canvas)
 

@@ -11,7 +11,7 @@ class View(metaclass=ABCMeta):
         self.focusable = False
         self.focused = False
 
-    def print(self, canvas):
+    def print(self, canvas, final=False):
         pass
 
     def handle(self, event):

@@ -14,7 +14,7 @@ class Button(View):
         self.text = text
         self.size = (len(text) + 2, 1)
     
-    def print(self, canvas):
+    def print(self, canvas, final=False):
         if self.focused:
             prefix = self.FOCUSED_PREFIX
             suffix = self.FOCUSED_SUFFIX

@@ -15,12 +15,12 @@ class LineInput(View):
         self.size = (width, 1)
         self.value = ''
     
-    def print(self, canvas):
+    def print(self, canvas, final=False):
         f = '{:' + self.placeholder + '<' + str(self.width) + '}'
         s = f.format(self.value)
         printed = canvas.print(s)
         canvas.position = (len(self.value), 0)
-        if self.focused:
+        if final and self.focused:
             canvas.cursor = Cursor.BLOCK
         else:
             canvas.cursor = Cursor.NONE

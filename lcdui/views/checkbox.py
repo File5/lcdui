@@ -20,7 +20,7 @@ class CheckBox(View):
         self.size = (len(text) + 3, 1)
         self.checked = False
     
-    def print(self, canvas):
+    def print(self, canvas, final=False):
         if self.focused:
             prefix = self.FOCUSED_PREFIX
             suffix = self.FOCUSED_SUFFIX

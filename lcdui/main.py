@@ -33,6 +33,7 @@ def main():
     seq = []
 
     def update_display():
+        canvas.cursor = Cursor.NONE
         w.print(canvas)
         x, y = w.size
         canvas.position = w.layout.focus_grid._focus

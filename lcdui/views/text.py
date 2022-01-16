@@ -7,5 +7,5 @@ class Text(View):
         self.text = text
         self.size = (len(text), 1)
     
-    def print(self, canvas):
+    def print(self, canvas, final=False):
         return canvas.print(self.text)
