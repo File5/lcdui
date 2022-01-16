@@ -22,6 +22,7 @@ class Layout(View):
 
     def print(self, canvas):
         cols, rows = self.parent.size
+        focused = []  # print focused views again at the end
         for i, row in enumerate(self.layout):
             if i >= rows:
                 break  # no more rows on the screen
@@ -29,11 +30,19 @@ class Layout(View):
             if isinstance(row, Iterable):
                 j = 0
                 for w in row:
-                    canvas.position = (j, i)
+                    w_pos = (j, i)
+                    canvas.position = w_pos
                     j += w.print(canvas.sub_canvas(*w.size))
+                    if w.focused:
+                        focused.append((w_pos, w))
                     if j >= cols - 1:
                         break  # no more space on this row
             else:
                 w = row
                 canvas.position = (0, i)
+                w.print(canvas.sub_canvas(*w.size))
+
+        if len(focused) > 0:
+            for position, w in focused:
+                canvas.position = position
                 w.print(canvas.sub_canvas(*w.size))
