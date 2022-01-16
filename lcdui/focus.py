@@ -1,10 +1,10 @@
-from lcdui.event import Event
+from lcdui.event import EventType
 
 from collections import Iterable
 
 
 class FocusGrid:
-    MOVE_EVENTS = (Event.UP, Event.DOWN, Event.LEFT, Event.RIGHT)
+    MOVE_EVENTS = (EventType.UP, EventType.DOWN, EventType.LEFT, EventType.RIGHT)
 
     class Cell:
         def __init__(self, pos, size, view, first=False, last=False):
@@ -142,24 +142,24 @@ class FocusGrid:
         w, h = self.size
         x, y = self._focus
         cell = self[self._focus]
-        if cell and event not in self.MOVE_EVENTS:
+        if cell and event.type not in self.MOVE_EVENTS:
             cell.view.handle(event)
         if cell:
             cell.view.focused = False
-        if event == Event.UP:
+        if event.type == EventType.UP:
             if y > 0:
                 y -= 1
                 self._focus = (x, y)
-        elif event == Event.DOWN:
+        elif event.type == EventType.DOWN:
             if y < h - 1:
                 y += 1
                 self._focus = (x, y)
-        elif event == Event.LEFT:
+        elif event.type == EventType.LEFT:
             if cell and not cell.first and x > 0:
                 #x -= (x - cell.x) + 1  # TODO find left neighbor
                 x = self._find_prev(cell)[0]
                 self._focus = (x, y)
-        elif event == Event.RIGHT:
+        elif event.type == EventType.RIGHT:
             if cell and not cell.last and x < w - 1:
                 #x += cell.w
                 x = self._find_next(cell)[0]

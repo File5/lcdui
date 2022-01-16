@@ -1,4 +1,4 @@
-from lcdui.event import Event
+from lcdui.event import EventType
 from lcdui.views import View
 
 
@@ -37,5 +37,5 @@ class CheckBox(View):
         ))
 
     def handle(self, event):
-        if event == Event.ACTION:
+        if event.type == EventType.ACTION:
             self.checked = not self.checked

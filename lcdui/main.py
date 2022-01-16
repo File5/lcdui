@@ -1,6 +1,6 @@
 from lcdui.views.lineinput import LineInput
 from lcdui.display import BufferedConsoleDisplay, BufferedRPLCDDisplay, Cursor
-from lcdui.event import Event
+from lcdui.event import Event, EventType
 from lcdui.views import Window, Button, CheckBox, Radio, Text, LineInput
 from lcdui.utils import getch
 
@@ -49,25 +49,25 @@ def main():
         elif seq == MOVE_SEQ + ['A']:
             if y > 0:
                 pass#canvas.position = x, y - 1
-            w.handle(Event.UP)
+            w.handle(Event(EventType.UP))
             update_display()
         elif seq == MOVE_SEQ + ['B']:
             if y < canvas.size[1] - 1:
                 pass#canvas.position = x, y + 1
-            w.handle(Event.DOWN)
+            w.handle(Event(EventType.DOWN))
             update_display()
         elif seq == MOVE_SEQ + ['D']:
             if x > 0:
                 pass#canvas.position = x - 1, y
-            w.handle(Event.LEFT)
+            w.handle(Event(EventType.LEFT))
             update_display()
         elif seq == MOVE_SEQ + ['C']:
             if x < canvas.size[0] - 1:
                 pass#canvas.position = x + 1, y
-            w.handle(Event.RIGHT)
+            w.handle(Event(EventType.RIGHT))
             update_display()
         elif c in ('\r', '\n', ' '):
-            w.handle(Event.ACTION)
+            w.handle(Event(EventType.ACTION))
             update_display()
         elif seq[-1] != ESC and seq[-2:] != MOVE_SEQ:
             canvas.print(c)

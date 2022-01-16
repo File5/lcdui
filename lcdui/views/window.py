@@ -1,4 +1,3 @@
-from lcdui.event import Event
 from lcdui.views import View
 from lcdui.views.layout import Layout
 
