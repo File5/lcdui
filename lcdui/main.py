@@ -1,6 +1,6 @@
 from lcdui.views.lineinput import LineInput
 from lcdui.display import BufferedConsoleDisplay, BufferedRPLCDDisplay, Cursor
-from lcdui.event import Event, EventType
+from lcdui.event import Event, EventType, InputEvent
 from lcdui.views import Window, Button, CheckBox, Radio, Text, LineInput
 from lcdui.utils import getch
 
@@ -70,7 +70,8 @@ def main():
             w.handle(Event(EventType.ACTION))
             update_display()
         elif seq[-1] != ESC and seq[-2:] != MOVE_SEQ:
-            canvas.print(c)
+            w.handle(InputEvent(c))
+            update_display()
 
 
 if __name__ == "__main__":
