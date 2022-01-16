@@ -66,6 +66,9 @@ def main():
                 pass#canvas.position = x + 1, y
             w.handle(Event.RIGHT)
             update_display()
+        elif c in ('\r', '\n', ' '):
+            w.handle(Event.ACTION)
+            update_display()
         elif seq[-1] != ESC and seq[-2:] != MOVE_SEQ:
             canvas.print(c)
 

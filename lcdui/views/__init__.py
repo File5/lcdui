@@ -14,6 +14,9 @@ class View(metaclass=ABCMeta):
     def print(self, canvas):
         pass
 
+    def handle(self, event):
+        pass
+
 
 from lcdui.views.button import Button
 from lcdui.views.checkbox import CheckBox

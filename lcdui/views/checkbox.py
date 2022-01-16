@@ -1,3 +1,4 @@
+from lcdui.event import Event
 from lcdui.views import View
 
 
@@ -17,6 +18,7 @@ class CheckBox(View):
         self.focused = False
         self.text = text
         self.size = (len(text) + 3, 1)
+        self.checked = False
     
     def print(self, canvas):
         if self.focused:
@@ -25,7 +27,15 @@ class CheckBox(View):
         else:
             prefix = self.PREFIX
             suffix = self.SUFFIX
+        if self.checked:
+            value = self.SELECTED
+        else:
+            value = self.DESELECTED
 
         return canvas.print(self.FORMAT.format(
-            prefix, self.SELECTED, suffix, self.text
+            prefix, value, suffix, self.text
         ))
+
+    def handle(self, event):
+        if event == Event.ACTION:
+            self.checked = not self.checked

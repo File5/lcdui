@@ -6,3 +6,4 @@ class Event(Enum):
     DOWN = 1
     LEFT = 2
     RIGHT = 3
+    ACTION = 4

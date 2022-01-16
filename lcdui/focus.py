@@ -4,6 +4,7 @@ from collections import Iterable
 
 
 class FocusGrid:
+    MOVE_EVENTS = (Event.UP, Event.DOWN, Event.LEFT, Event.RIGHT)
 
     class Cell:
         def __init__(self, pos, size, view, first=False, last=False):
@@ -141,6 +142,8 @@ class FocusGrid:
         w, h = self.size
         x, y = self._focus
         cell = self[self._focus]
+        if cell and event not in self.MOVE_EVENTS:
+            cell.view.handle(event)
         if cell:
             cell.view.focused = False
         if event == Event.UP:
