@@ -183,7 +183,8 @@ class FocusGrid:
         x, y = self._focus
         cell = self[self._focus]
         if cell and event.type not in self.MOVE_EVENTS:
-            cell.view.handle(event)
+            return cell.view.handle(event)
+
         if cell:
             cell.view.focused = False
         if event.type == EventType.UP:
@@ -202,6 +203,12 @@ class FocusGrid:
             if cell and not cell.last and x < w - 1:
                 x = self._find_next(cell)[0]
                 self._focus = (x, y)
-        cell = self[self._focus]
+
+        new_cell = self[self._focus]
+        result = False
+        if new_cell != cell:
+            cell = new_cell
+            result = True
         if cell:
             cell.view.focused = True
+        return result

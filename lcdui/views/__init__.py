@@ -1,7 +1,7 @@
 from abc import ABCMeta
 
 
-__all__ = ['View', 'Button', 'CheckBox', 'Radio', 'Text', 'LineInput', 'Window']
+__all__ = ['View', 'Button', 'CheckBox', 'Radio', 'Text', 'LineInput', 'VScrollBar', 'Window']
 
 
 class View(metaclass=ABCMeta):
@@ -15,7 +15,7 @@ class View(metaclass=ABCMeta):
         pass
 
     def handle(self, event):
-        pass
+        return False
 
 
 from lcdui.views.button import Button
@@ -23,4 +23,5 @@ from lcdui.views.checkbox import CheckBox
 from lcdui.views.radio import Radio
 from lcdui.views.text import Text
 from lcdui.views.lineinput import LineInput
+from lcdui.views.scrollbar import VScrollBar
 from lcdui.views.window import Window

@@ -1,7 +1,8 @@
 from lcdui.views.lineinput import LineInput
 from lcdui.display import BufferedConsoleDisplay, BufferedRPLCDDisplay, Cursor
 from lcdui.event import Event, EventType, InputEvent
-from lcdui.views import Window, Button, CheckBox, Radio, Text, LineInput
+from lcdui.views import Window, Button, CheckBox, Radio, Text, LineInput, VScrollBar
+from lcdui.views.pagescroll import PageScrollLayout
 from lcdui.utils import getch
 
 
@@ -11,12 +12,22 @@ def focused(view):
 
 
 class MainWindow(Window):
-    layout = [
-        Text('Title'),
-        [Text('Label:'), LineInput(14)],
-        [Button('Button'), Text(' '), Radio('Radio')],
-        CheckBox('CheckBox'),
-    ]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.layout = PageScrollLayout([
+            [
+                Text('Page 1'),
+                [Text('Label:'), LineInput(13)],
+                [Button('Button'), Text(' '), Radio('Radio')],
+                CheckBox('CheckBox'),
+            ],
+            [
+                Text('Page 2'),
+                [Text('Label:'), LineInput(13)],
+                [Button('Button'), Text(' '), Radio('Radio')],
+                CheckBox('CheckBox'),
+            ],
+        ], parent=self)
 
 
 def main():
@@ -34,9 +45,10 @@ def main():
 
     def update_display():
         canvas.cursor = Cursor.NONE
+        focus_pos = w.layout.page.focus_grid._focus
         w.print(canvas)
         x, y = w.size
-        canvas.position = w.layout.focus_grid._focus
+        canvas.position = focus_pos
         display.cursor = Cursor.BLOCK
 
     while True:

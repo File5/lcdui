@@ -39,3 +39,5 @@ class CheckBox(View):
     def handle(self, event):
         if event.type == EventType.ACTION:
             self.checked = not self.checked
+            return True
+        return False

@@ -33,3 +33,5 @@ class LineInput(View):
                     self.value = self.value[:-1]
                 else:
                     self.value += event.value
+                return True
+        return False

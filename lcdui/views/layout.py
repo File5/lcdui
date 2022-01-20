@@ -9,7 +9,7 @@ class Layout(View):
         super().__init__(parent)
         self.layout = layout
         self.focus_grid = FocusGrid(parent.size, self.layout)
-        self.size = (0, 0)  # to be calculated
+        self.size = parent.size
 
     def __iter__(self):
         return iter(self.layout)
@@ -18,7 +18,7 @@ class Layout(View):
         return self.layout[key]
 
     def handle(self, event):
-        self.focus_grid.handle(event)
+        return self.focus_grid.handle(event)
 
     def print(self, canvas, final=False):
         cols, rows = self.parent.size
@@ -37,7 +37,7 @@ class Layout(View):
                         final = False
                         focused.append((w_pos, w))
                     j += w.print(canvas.sub_canvas(*w.size), final=final)
-                    if j >= cols - 1:
+                    if j > cols - 1:
                         break  # no more space on this row
             else:
                 w = row

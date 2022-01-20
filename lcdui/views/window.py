@@ -16,7 +16,7 @@ class Window(View):
         self.focus = 0
 
     def handle(self, event):
-        self.layout.handle(event)
+        return self.layout.handle(event)
 
     def print(self, canvas, final=False):
         canvas.position = (0, 0)
