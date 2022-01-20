@@ -76,6 +76,7 @@ class FocusGrid:
         # set initial focus
         if focus_cell is not None:
             self._focus = focus_cell.pos
+            focus_cell.view.focused = True
 
     def __str__(self):
         result = []

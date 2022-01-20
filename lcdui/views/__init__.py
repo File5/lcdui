@@ -1,7 +1,7 @@
 from abc import ABCMeta
 
 
-__all__ = ['View', 'Button', 'CheckBox', 'Radio', 'Text', 'LineInput', 'VScrollBar', 'Window']
+__all__ = ['View', 'Button', 'CheckBox', 'Radio', 'Text', 'LineInput', 'ListItem', 'VScrollBar', 'Window']
 
 
 class View(metaclass=ABCMeta):
@@ -23,5 +23,6 @@ from lcdui.views.checkbox import CheckBox
 from lcdui.views.radio import Radio
 from lcdui.views.text import Text
 from lcdui.views.lineinput import LineInput
+from lcdui.views.list import ListItem
 from lcdui.views.scrollbar import VScrollBar
 from lcdui.views.window import Window

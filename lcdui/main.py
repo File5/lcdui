@@ -1,7 +1,7 @@
 from lcdui.views.lineinput import LineInput
 from lcdui.display import BufferedConsoleDisplay, BufferedRPLCDDisplay, Cursor
 from lcdui.event import Event, EventType, InputEvent
-from lcdui.views import Window, Button, CheckBox, Radio, Text, LineInput, VScrollBar
+from lcdui.views import Window, Button, CheckBox, Radio, Text, LineInput, ListItem
 from lcdui.views.pagescroll import PageScrollLayout
 from lcdui.utils import getch
 
@@ -16,13 +16,13 @@ class MainWindow(Window):
         super().__init__(*args, **kwargs)
         self.layout = PageScrollLayout([
             [
-                Text('Page 1'),
+                ListItem('Page 1', 19),
                 [Text('Label:'), LineInput(13)],
                 [Button('Button'), Text(' '), Radio('Radio')],
                 CheckBox('CheckBox'),
             ],
             [
-                Text('Page 2'),
+                ListItem('Page 2', 19),
                 [Text('Label:'), LineInput(13)],
                 [Button('Button'), Text(' '), Radio('Radio')],
                 CheckBox('CheckBox'),

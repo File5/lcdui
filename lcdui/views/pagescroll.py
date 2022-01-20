@@ -37,7 +37,7 @@ class PageScrollLayout(View):
             w -= 1
         self.page.print(canvas.sub_canvas(w, h), final)
         if self.scroll_bar:
-            canvas.position = (w - 1, 0)
+            canvas.position = (w, 0)
             self.scroll_bar_view.print(canvas.sub_canvas(1, h), final)
 
     def handle(self, event):
