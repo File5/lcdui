@@ -1,3 +1,4 @@
+from lcdui.display import Cursor
 from lcdui.event import EventType
 
 from lcdui.views import View
@@ -37,8 +38,13 @@ class PageScrollLayout(View):
             w -= 1
         self.page.print(canvas.sub_canvas(w, h), final)
         if self.scroll_bar:
+            old_cursor = canvas.cursor
+            old_pos = canvas.position
+            canvas.cursor = Cursor.NONE
             canvas.position = (w, 0)
             self.scroll_bar_view.print(canvas.sub_canvas(1, h), final)
+            canvas.position = old_pos
+            canvas.cursor = old_cursor
 
     def handle(self, event):
         focus_handled = self.page.handle(event)
